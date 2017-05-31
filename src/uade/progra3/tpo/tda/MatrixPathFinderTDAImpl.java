@@ -7,8 +7,8 @@ import uade.progra3.tpo.model.Node;
 public class MatrixPathFinderTDAImpl implements MatrixPathFinderTDA {
 
 	@Override
-	public List<Node> getPath(int[][] matrix) {
-		// TODO Auto-generated method stub
+	public List<Node> getPath(int[][] matrix, Node start, Node end) {
+
 		return null;
 	}
 
