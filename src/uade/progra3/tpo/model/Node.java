@@ -1,23 +1,22 @@
 package uade.progra3.tpo.model;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class Node {
-	private int i;
-	private int j;
+	private int x;
+	private int y;
 	private int value;
+	private Set<Node> leafs;
+	private Node parent;
 
-	public Node(int i, int j, int value) {
+	public Node(int x, int y, int value) {
 		super();
-		this.i = i;
-		this.j = j;
+		this.x = x;
+		this.y = y;
 		this.value = value;
-	}
-
-	public int getI() {
-		return i;
-	}
-
-	public int getJ() {
-		return j;
+		this.leafs = new HashSet<Node>();
 	}
 
 	public int getValue() {
@@ -27,12 +26,35 @@ public class Node {
 	@Override
 	public boolean equals(Object obj) {
 		Node node = (Node) obj;
-		return i == node.getI() && j == node.getJ();
+		return x == node.getX() && y == node.getY();
 	}
 
 	@Override
 	public String toString() {
-		return "i: " + this.i + ", j: " + this.j;
+		return "x: " + this.x + ", y: " + this.y;
 	}
 
+	public Set<Node> getLeafs() {
+		return leafs;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Node getParent() {
+		return this.parent;
+	}
+
+	public void setParent(Node parent) {
+		this.parent = parent;
+	}
+
+	public void addLeaf(Node leaf) {
+		this.leafs.add(leaf);
+	}
 }

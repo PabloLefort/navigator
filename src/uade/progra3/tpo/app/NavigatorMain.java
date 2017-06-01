@@ -8,12 +8,11 @@ import uade.progra3.tpo.util.MatrixUtils;
 public class NavigatorMain {
 
 	public static void main(String[] args) {
-		int[][] matrix = new int[5][5];
-		MatrixUtils.fillMatrix(matrix, 4);
+		int[][] matrix = new int[2][2];
+		MatrixUtils.fillMatrix(matrix, 20);
 		MatrixPathFinderTDA tda = new MatrixPathFinderTDAImpl();
 		Node start = new Node(0, 0, matrix[0][0]);
-		Node end = new Node(4, 4, matrix[4][4]);
-		System.out.println(matrix);
+		Node end = new Node(1, 1, matrix[1][1]);
 		tda.getPath(matrix, start, end);
 	}
 }
