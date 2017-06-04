@@ -31,7 +31,18 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return "x: " + this.x + ", y: " + this.y;
+		StringBuffer sb = new StringBuffer();
+		sb.append("[" + this.value + "]");
+		if (!this.leafs.isEmpty()) {
+			sb.append(" --> {");
+			for (Iterator<Node> it = this.leafs.iterator(); it.hasNext();) {
+				Node n = it.next();
+				sb.append(n.toString() + ",");
+			}
+			sb.deleteCharAt(sb.toString().length() - 1);
+			sb.append("}");
+		}
+		return sb.toString();
 	}
 
 	public Set<Node> getLeafs() {
