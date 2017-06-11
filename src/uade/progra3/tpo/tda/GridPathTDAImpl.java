@@ -35,14 +35,14 @@ public class GridPathTDAImpl implements GridPathTDA {
 	}
 
 	private Vector<Node> calculatePath(Node start, Node end, int[][] grid) {
-		Vector<Node> leafs = this.getNodeLeafs(start, grid);
+		Vector<Node> leafs = this.getNodeLeafs(start, end, grid);
 		//for (int i = 0; i < leafs.size(); i++) {
 			
 		//}
 		return null;
 	}
 
-	private Vector<Node> getNodeLeafs(Node start, int[][] grid) {
+	private Vector<Node> getNodeLeafs(Node start, Node end, int[][] grid) {
 		Vector<Node> leafs = new Vector<Node>();
 		ArrayList<Integer> auxLeafs = new ArrayList<Integer>();
 		int nodeX = start.getX();
@@ -50,7 +50,7 @@ public class GridPathTDAImpl implements GridPathTDA {
 		for(int i = 0; i < 4; i++){
 			// Up leaf
 			if(i == 0){
-				addLeaf(auxLeafs, grid, nodeX, nodeY -1, start);
+				addLeaf(auxLeafs, grid, nodeX, nodeY - 1, start);
 			}
 			// Right leaf
 			if(i == 1){
@@ -77,7 +77,8 @@ public class GridPathTDAImpl implements GridPathTDA {
 				lightweigth = nodeLeafs.get(i).getWeight();
 			} else {
 				Node aux = nodeLeafs.get(i);
-				if(aux.getWeight() == lightweigth){
+				if(aux.getWeight() == lightweigth || 
+						(aux.getX() == end.getX() && aux.getY() == end.getY())){
 					leafs.addElement(aux);
 				} else {
 					// Subsequent leafs are heavier, so stop iteration
@@ -85,7 +86,7 @@ public class GridPathTDAImpl implements GridPathTDA {
 				}
 			}
 		}
-		return null;
+		return leafs;
 	}
 	
 	private void addLeaf(List<Integer> auxLeafs, int[][] grid, int x, int y, Node node) {
