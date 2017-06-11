@@ -1,71 +1,55 @@
 package uade.progra3.tpo.model;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Vector;
 
 public class Node {
 	private int x;
 	private int y;
-	private int value;
-	private Set<Node> leafs;
-	private Node parent;
-
-	public Node(int x, int y, int value) {
+	private Vector<Node> leafs;
+	private int weight;
+	private int maxWeightLeafs;
+	
+	public Node(int x, int y, int weight) {
 		super();
 		this.x = x;
 		this.y = y;
-		this.value = value;
-		this.leafs = new HashSet<Node>();
+		this.weight = weight;
+		this.maxWeightLeafs = 0;
 	}
-
-	public int getValue() {
-		return value;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		Node node = (Node) obj;
-		return x == node.getX() && y == node.getY();
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("[" + this.value + "]");
-		if (!this.leafs.isEmpty()) {
-			sb.append(" --> {");
-			for (Iterator<Node> it = this.leafs.iterator(); it.hasNext();) {
-				Node n = it.next();
-				sb.append(n.toString() + ",");
-			}
-			sb.deleteCharAt(sb.toString().length() - 1);
-			sb.append("}");
-		}
-		return sb.toString();
-	}
-
-	public Set<Node> getLeafs() {
-		return leafs;
-	}
-
+	
 	public int getX() {
 		return x;
 	}
-
+	public void setX(int x) {
+		this.x = x;
+	}
 	public int getY() {
 		return y;
 	}
-
-	public Node getParent() {
-		return this.parent;
+	public void setY(int y) {
+		this.y = y;
+	}
+	public Vector<Node> getLeafs() {
+		return leafs;
+	}
+	public void setLeafs(Node leaf) {
+		this.leafs.addElement(leaf);
 	}
 
-	public void setParent(Node parent) {
-		this.parent = parent;
+	public int getWeight() {
+		return weight;
 	}
 
-	public void addLeaf(Node leaf) {
-		this.leafs.add(leaf);
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
+
+	public int getMaxWeightLeafs() {
+		return maxWeightLeafs;
+	}
+
+	public void setMaxWeightLeafs(int maxWeightLeafs) {
+		this.maxWeightLeafs = maxWeightLeafs;
+	}
+
 }
