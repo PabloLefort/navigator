@@ -14,7 +14,7 @@ public class Navigator {
 		tda.setRandomGrid(grid, 3);
 		System.out.println(Arrays.deepToString(grid));
 		Node start = new Node(0, 0, 0);
-		Node end = new Node(0, 0, 0);
+		Node end = new Node(4, 4, 0);
 		tda.getPath(start, end, grid);
 	}
 
