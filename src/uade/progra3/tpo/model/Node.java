@@ -15,6 +15,7 @@ public class Node {
 		this.y = y;
 		this.weight = weight;
 		this.maxWeightLeafs = 0;
+		this.leafs = new Vector<Node>();
 	}
 	
 	public int getX() {

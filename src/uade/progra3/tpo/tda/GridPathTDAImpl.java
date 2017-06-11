@@ -9,11 +9,20 @@ import java.util.Vector;
 import uade.progra3.tpo.model.Node;
 
 public class GridPathTDAImpl implements GridPathTDA {
+	private int currentWeight;
+	private Vector<Node> path;
+	private Vector<Node> auxPaths;
+
+	public GridPathTDAImpl() {
+		super();
+		this.currentWeight = 0;
+		this.path = new Vector<Node>();
+		this.auxPaths = new Vector<Node>();
+	}
 
 	public Vector<Node> getPath(Node start, Node end, int[][] grid) {
-		Vector<Node> path;
-		path = this.calculatePath(start, end, grid);
-		return path;
+		this.calculatePath(start, end, grid);
+		return this.path;
 	}
 
 	public void setRandomGrid(int[][] grid, int bound) {
@@ -21,7 +30,6 @@ public class GridPathTDAImpl implements GridPathTDA {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				grid[i][j] = random.nextInt(bound);
-				//grid[i][j] = 1;
 			}
 		}
 	}
@@ -42,29 +50,50 @@ public class GridPathTDAImpl implements GridPathTDA {
 		for(int i = 0; i < 4; i++){
 			// Up leaf
 			if(i == 0){
-				addAuxLeaf(auxLeafs, grid, nodeX, nodeY -1);
+				addLeaf(auxLeafs, grid, nodeX, nodeY -1, start);
 			}
 			// Right leaf
 			if(i == 1){
-				addAuxLeaf(auxLeafs, grid, nodeX + 1, nodeY);
+				addLeaf(auxLeafs, grid, nodeX + 1, nodeY, start);
 			}
 			// Down leaf
 			if(i == 2){
-				addAuxLeaf(auxLeafs, grid, nodeX, nodeY + 1);
+				addLeaf(auxLeafs, grid, nodeX, nodeY + 1, start);
 			}
 			// Left leaf
 			if(i == 3){
-				addAuxLeaf(auxLeafs, grid, nodeX - 1, nodeY);
+				addLeaf(auxLeafs, grid, nodeX - 1, nodeY, start);
 			}
 		}
+		// Sort leafs by weigth
 		Collections.sort(auxLeafs);
-		System.out.println(auxLeafs);
+		// Set lightweigth leafs to the path
+		int lightweigth = 0;
+		Vector<Node> nodeLeafs = start.getLeafs();
+		for (int i = 0; i < nodeLeafs.size(); i++) {
+			// Allways add the first leaf, because its the lightest
+			if(i == 0){
+				leafs.addElement(nodeLeafs.get(i));
+				lightweigth = nodeLeafs.get(i).getWeight();
+			} else {
+				Node aux = nodeLeafs.get(i);
+				if(aux.getWeight() == lightweigth){
+					leafs.addElement(aux);
+				} else {
+					// Subsequent leafs are heavier, so stop iteration
+					break;
+				}
+			}
+		}
 		return null;
 	}
 	
-	private void addAuxLeaf(List<Integer> auxLeafs, int[][] grid, int x, int y) {
+	private void addLeaf(List<Integer> auxLeafs, int[][] grid, int x, int y, Node node) {
 		if(leafExists(grid, x, y)){
-			auxLeafs.add(grid[y][x]);
+			int weight = grid[y][x];
+			auxLeafs.add(weight);
+			Node aux = new Node(y, x, weight);
+			node.setLeafs(aux);
 		}
 	}
 
