@@ -4,11 +4,11 @@ import java.util.Vector;
 
 public class Tree {
 	private Node root;
-	private Vector<Node> leafs;
+	private Vector<Tree> leafs;
 	
 	public Tree(Node root, Vector<Node> leafs) {
 		this.root = root;
-		this.leafs = leafs;
+		this.leafs = null;
 	}
 	
 	public Tree() {
@@ -22,10 +22,12 @@ public class Tree {
 	public void setRoot(Node root) {
 		this.root = root;
 	}
-	public Vector<Node> getLeafs() {
+
+	public Vector<Tree> getLeafs() {
 		return leafs;
 	}
-	public void setLeafs(Vector<Node> leafs) {
+
+	public void setLeafs(Vector<Tree> leafs) {
 		this.leafs = leafs;
 	}
 	
