@@ -11,18 +11,25 @@ public class GridPathTDAImpl implements GridPathTDA {
 	private Vector<Node> path;
 	private Tree tree;
 	private Node end;
-
+	private boolean finded;
+	
 	public GridPathTDAImpl() {
 		super();
 		this.currentWeight = 0;
 		this.path = new Vector<Node>();
 		this.tree = new Tree();
+		this.finded = false;
 	}
 
 	public Vector<Node> getPath(Node start, Node end, int[][] grid) {
 		this.end = end;
 		this.tree.setRoot(start);
 		this.expandTree(start, grid, this.tree);
+		while(!finded){
+			for (int i = 0; i < this.tree.getLeafs().size(); i++) {
+				
+			}
+		}
 		return this.path;
 	}
 
@@ -35,31 +42,24 @@ public class GridPathTDAImpl implements GridPathTDA {
 		}
 	}
 
-	private Node expandTree(Node start, int[][] grid, Tree tree) {
+	private void expandTree(Node start, int[][] grid, Tree tree) {
 		Vector<Node> leafs = this.getNodeLeafs(start, end, grid);
 		Vector<Tree> treeLeafs = new Vector<Tree>();
 		Node auxLeaf = null;
 		PrintLeafs(leafs);
-		boolean finded = false;
 		for (int i = 0; i < leafs.size(); i++) {
 			auxLeaf = leafs.get(i);
 			// Found the end node
 			if(auxLeaf.getX() == this.end.getX() && auxLeaf.getY() == this.end.getY()){
-				finded = true;
+				this.finded = true;
 				break;
 			}
 			Tree aux = new Tree();
 			aux.setRoot(leafs.get(i));
 			treeLeafs.addElement(aux);
 		}
-		if(finded){
-			return auxLeaf;
-		}
 		tree.setLeafs(treeLeafs);
-		for (int i = 0; i < leafs.size(); i++) {
-			
-		}
-		return null;
+		tree.setWeight(tree.getWeight() + auxLeaf.getWeight());	
 	}
 
 	private Vector<Node> getNodeLeafs(Node start, Node end, int[][] grid) {
