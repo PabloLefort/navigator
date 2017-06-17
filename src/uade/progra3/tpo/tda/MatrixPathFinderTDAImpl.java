@@ -48,7 +48,7 @@ public class MatrixPathFinderTDAImpl implements MatrixPathFinderTDA {
 
 		this.steps.add(start);
 		if (start.equals(end)) {
-			return this.cleanResult(end, new ArrayList<Node>());
+			return generateResult(end, new ArrayList<Node>());
 		}
 
 		Collection<Node> expandedNodes = MatrixUtils.expandFromNode(start, end, matrix);
@@ -70,17 +70,14 @@ public class MatrixPathFinderTDAImpl implements MatrixPathFinderTDA {
 		if (n == null) {
 			throw new Exception("No existe ningun camino posible entre los nodos");
 		}
-		start.setNext(n);
 		return getPath(matrix, n, end);
 	}
 
-	private List<Node> cleanResult(Node n, List<Node> result) {
+	private List<Node> generateResult(Node n, List<Node> result) {
 		if (n.getPrevious() != null) {
-			cleanResult(n.getPrevious(), result);
-			result.add(n);
-		} else {
-			result.add(n);
+			generateResult(n.getPrevious(), result);
 		}
+		result.add(n);
 		return result;
 	}
 
