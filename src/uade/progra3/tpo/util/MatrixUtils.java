@@ -1,7 +1,11 @@
 package uade.progra3.tpo.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 
+import uade.progra3.tpo.model.Coordinate;
 import uade.progra3.tpo.model.Node;
 
 public class MatrixUtils {
@@ -15,70 +19,48 @@ public class MatrixUtils {
 		}
 	}
 
-	public static Node matrixToTreeNode(int[][] matrix, int fromX, int fromY) {
-		Node node = new Node(fromX, fromY, matrix[fromX][fromY]);
-		node.setParent(null);
-		return matrixToTreeNode(matrix, node);
-	}
-
-	private static Node matrixToTreeNode(int[][] matrix, Node node) {
-		Node child;
-		int[][] coordinates = fillCoordinates(node.getX(), node.getY());
-		for (int i = 0; i < coordinates.length; i++) {
-			int coords[] = coordinates[i];
+	public static Collection<Node> expandFromNode(Node start, Node end, int[][] matrix) {
+		Collection<Node> result = new ArrayList<Node>();
+		Collection<Coordinate> coordinates = fillCoordinates(start.getCoordinate());
+		for (Iterator<Coordinate> it = coordinates.iterator(); it.hasNext();) {
+			Coordinate c = it.next();
 			try {
-				child = new Node(coords[0], coords[1], matrix[coords[0]][coords[1]]);
-				if (!hasParent(child, node)) {
-					node.addLeaf(child);
-					child.setParent(node);
-					matrixToTreeNode(matrix, child);
-				}
+				Node n = new Node(c, matrix[c.getX()][c.getY()], start.getAccumulated() + 1,
+						getDistanceBetweenCoordinates(start.getCoordinate(), end.getCoordinate()));
+				n.setPrevious(start);
+				result.add(n);
 			} catch (IndexOutOfBoundsException e) {
+				// Nada que hacer
 			}
-
 		}
-		return node;
-	}
-
-	private static boolean hasParent(Node child, Node parent) {
-		if (parent == null) {
-			return false;
-		}
-
-		if (child.equals(parent)) {
-			return true;
-		} else {
-			return hasParent(child, parent.getParent());
-		}
+		return result;
 	}
 
 	// 8 movimientos posibles desde un punto
-	private static int[][] fillCoordinates(int x, int y) {
-		int[][] coordinates = new int[8][2];
-		coordinates[0][0] = x - 1;
-		coordinates[0][1] = y;
+	private static Collection<Coordinate> fillCoordinates(Coordinate coord) {
+		Collection<Coordinate> result = new ArrayList<Coordinate>();
+		Coordinate c = new Coordinate(coord.getX() - 1, coord.getY());
+		result.add(c);
+		c = new Coordinate(coord.getX() - 1, coord.getY() - 1);
+		result.add(c);
+		c = new Coordinate(coord.getX() - 1, coord.getY() + 1);
+		result.add(c);
+		c = new Coordinate(coord.getX() + 1, coord.getY());
+		result.add(c);
+		c = new Coordinate(coord.getX() + 1, coord.getY() - 1);
+		result.add(c);
+		c = new Coordinate(coord.getX() + 1, coord.getY() + 1);
+		result.add(c);
+		c = new Coordinate(coord.getX(), coord.getY() - 1);
+		result.add(c);
+		c = new Coordinate(coord.getX(), coord.getY() + 1);
+		result.add(c);
+		return result;
+	}
 
-		coordinates[1][0] = x - 1;
-		coordinates[1][1] = y - 1;
-
-		coordinates[2][0] = x - 1;
-		coordinates[2][1] = y + 1;
-
-		coordinates[3][0] = x + 1;
-		coordinates[3][1] = y;
-
-		coordinates[4][0] = x + 1;
-		coordinates[4][1] = y - 1;
-
-		coordinates[5][0] = x + 1;
-		coordinates[5][1] = y + 1;
-
-		coordinates[6][0] = x;
-		coordinates[6][1] = y - 1;
-
-		coordinates[7][0] = x;
-		coordinates[7][1] = y + 1;
-
-		return coordinates;
+	public static double getDistanceBetweenCoordinates(Coordinate start, Coordinate end) {
+		int deltaX = end.getX() - start.getX();
+		int deltaY = end.getY() - start.getY();
+		return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 	}
 }

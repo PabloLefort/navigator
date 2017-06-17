@@ -1,71 +1,60 @@
 package uade.progra3.tpo.model;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 public class Node {
-	private int x;
-	private int y;
+	private Coordinate coordinate;
+	private int accumulated;
+	private double distance;
 	private int value;
-	private Set<Node> leafs;
-	private Node parent;
+	private Node previous = null;
+	private Node next = null;
 
-	public Node(int x, int y, int value) {
-		super();
-		this.x = x;
-		this.y = y;
+	public Node(Coordinate coordinate, int value, int accumulated, double distance) {
+		this.coordinate = coordinate;
 		this.value = value;
-		this.leafs = new HashSet<Node>();
+		this.accumulated = accumulated;
+		this.distance = distance;
+	}
+	
+	public void setPrevious(Node previous) {
+		this.previous = previous;
+	}
+	
+	public void setNext(Node next) {
+		this.next = next;
+	}
+	
+	public Node getPrevious() {
+		return previous;
+	}
+	
+	public Node getNext() {
+		return next;
 	}
 
-	public int getValue() {
-		return value;
+	public double getCost() {
+		return accumulated + distance + value;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		Node node = (Node) obj;
-		return x == node.getX() && y == node.getY();
+		return this.coordinate.equals(node.coordinate);
+	}
+
+	public Coordinate getCoordinate() {
+		return coordinate;
+	}
+
+	public int getValue() {
+		return this.value;
+	}
+
+	public int getAccumulated() {
+		return accumulated;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append("[" + this.value + "]");
-		if (!this.leafs.isEmpty()) {
-			sb.append(" --> {");
-			for (Iterator<Node> it = this.leafs.iterator(); it.hasNext();) {
-				Node n = it.next();
-				sb.append(n.toString() + ",");
-			}
-			sb.deleteCharAt(sb.toString().length() - 1);
-			sb.append("}");
-		}
-		return sb.toString();
-	}
-
-	public Set<Node> getLeafs() {
-		return leafs;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public Node getParent() {
-		return this.parent;
-	}
-
-	public void setParent(Node parent) {
-		this.parent = parent;
-	}
-
-	public void addLeaf(Node leaf) {
-		this.leafs.add(leaf);
+		return this.coordinate.toString();
 	}
 }
