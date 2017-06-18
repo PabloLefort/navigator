@@ -21,8 +21,8 @@ public class NavigatorMain {
 		int[][] matrix = new int[25][25];
 		MatrixUtils.fillMatrix(matrix, 4);
 
-		Coordinate startCoordinate = new Coordinate(20, 0);
-		Coordinate endCoordinate = new Coordinate(10, 24);
+		Coordinate startCoordinate = new Coordinate(0, 0);
+		Coordinate endCoordinate = new Coordinate(24, 24);
 		MatrixPathFinderTDA tda = new MatrixPathFinderTDAImpl();
 		Node start = new Node(startCoordinate, matrix[startCoordinate.getX()][startCoordinate.getY()], 0,
 				MatrixUtils.getDistanceBetweenCoordinates(startCoordinate, endCoordinate));
