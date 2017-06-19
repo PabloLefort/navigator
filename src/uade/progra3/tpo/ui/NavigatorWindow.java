@@ -38,9 +38,9 @@ public class NavigatorWindow extends JFrame {
 		setVisible(true);
 	}
 
-	public NavigatorWindow(String name, int[][] matrix, Node start, Node end) throws ClassNotFoundException,
-			InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		super(name);
+	public NavigatorWindow(int[][] matrix, Node start, Node end) throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException, UnsupportedLookAndFeelException {
+		super("PathFinder UI");
 		this.start = start;
 		this.end = end;
 		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
