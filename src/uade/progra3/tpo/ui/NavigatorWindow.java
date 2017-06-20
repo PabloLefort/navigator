@@ -50,7 +50,6 @@ public class NavigatorWindow extends JFrame {
 		setResizable(false);
 
 		this.matrix = matrix;
-		this.results = results;
 	}
 
 	private void addComponentsToPane(final Container pane) {

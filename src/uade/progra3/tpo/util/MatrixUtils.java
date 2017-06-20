@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.Random;
 
 import uade.progra3.tpo.model.Coordinate;
+import uade.progra3.tpo.model.Coordinate.CoordinatePosition;
 import uade.progra3.tpo.model.Node;
+import uade.progra3.tpo.tda.MatrixPathFinderTDA;
 
 public class MatrixUtils {
 
@@ -21,6 +23,8 @@ public class MatrixUtils {
 
 	public static Collection<Node> expandFromNode(Node start, Node end, int[][] matrix) {
 		Collection<Node> result = new ArrayList<Node>();
+		Collection<Node> excluded = new ArrayList<Node>();
+
 		Collection<Coordinate> coordinates = fillCoordinates(start.getCoordinate());
 		for (Iterator<Coordinate> it = coordinates.iterator(); it.hasNext();) {
 			Coordinate c = it.next();
@@ -28,6 +32,47 @@ public class MatrixUtils {
 				Node n = new Node(c, matrix[c.getX()][c.getY()], start.getAccumulated() + 1,
 						getDistanceBetweenCoordinates(start.getCoordinate(), end.getCoordinate()));
 				n.setPrevious(start);
+				if (n.getValue() == MatrixPathFinderTDA.FORBIDDEN_VALUE) {
+					Coordinate cAux;
+					Node nAux;
+
+					if (start.getCoordinate().compareToCoordinate(n.getCoordinate()) == CoordinatePosition.HORIZONTAL) {
+						try {
+							cAux = new Coordinate(n.getCoordinate().getX(), n.getCoordinate().getY() - 1);
+							nAux = new Node(cAux, matrix[cAux.getX()][cAux.getY()], 0, 0);
+							excluded.add(nAux);
+						} catch (IndexOutOfBoundsException e1) {
+							// Nada que hacer
+						}
+						try {
+							cAux = new Coordinate(n.getCoordinate().getX(), n.getCoordinate().getY() + 1);
+							nAux = new Node(cAux, matrix[cAux.getX()][cAux.getY()], 0, 0);
+							excluded.add(nAux);
+						} catch (IndexOutOfBoundsException e1) {
+							// Nada que hacer
+						}
+
+					} else if (start.getCoordinate()
+							.compareToCoordinate(n.getCoordinate()) == CoordinatePosition.VERTICAL) {
+						try {
+							cAux = new Coordinate(n.getCoordinate().getX() - 1, n.getCoordinate().getY());
+							nAux = new Node(cAux, matrix[cAux.getX()][cAux.getY()], 0, 0);
+							excluded.add(nAux);
+						} catch (IndexOutOfBoundsException e1) {
+							// Nada que hacer
+						}
+						try {
+							cAux = new Coordinate(n.getCoordinate().getX() + 1, n.getCoordinate().getY());
+							nAux = new Node(cAux, matrix[cAux.getX()][cAux.getY()], 0, 0);
+							excluded.add(nAux);
+						} catch (IndexOutOfBoundsException e1) {
+							// Nada que hacer
+						}
+
+					}
+
+				}
+				result.removeAll(excluded);
 				result.add(n);
 			} catch (IndexOutOfBoundsException e) {
 				// Nada que hacer

@@ -28,4 +28,21 @@ public class Coordinate {
 	public String toString() {
 		return "{" + this.x + "," + this.y + "}";
 	}
+
+	public CoordinatePosition compareToCoordinate(Coordinate c) {
+		int deltaX = Math.abs(this.x - c.getX());
+		int deltaY = Math.abs(this.y - c.getY());
+
+		if (deltaX == 1 && deltaY == 0) {
+			return CoordinatePosition.HORIZONTAL;
+		} else if (deltaY == 1 && deltaX == 0) {
+			return CoordinatePosition.VERTICAL;
+		} else {
+			return CoordinatePosition.DIAGONAL;
+		}
+	}
+
+	public enum CoordinatePosition {
+		HORIZONTAL, VERTICAL, DIAGONAL
+	}
 }
